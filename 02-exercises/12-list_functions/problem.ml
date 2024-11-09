@@ -16,8 +16,8 @@ open! Base
 
    Let's rewrite [simpler_sum] and [simpler_product] using List.fold *) 
 
-let simpler_sum xs = failwith "For you to implement"
-let simpler_product xs = failwith "For you to implement"
+let simpler_sum xs = List.fold xs ~init:0 ~f:(fun x y -> x + y)
+let simpler_product xs = List.fold xs ~init:1 ~f:(fun x y -> x * y)
 
 (** ========== [List.map] ========== **)
 (* [List.map] has the following signature:
@@ -30,7 +30,7 @@ let simpler_product xs = failwith "For you to implement"
    Let's write a function that takes in an int list and transforms it into a
    float list. (Hint: you can cast an int to a float using [Float.of_int].) *)
                        
-let float_of_int xs = failwith "For you to implement"
+let float_of_int xs = List.map xs ~f:Float.of_int
 
 (** ========== [List.init] ========== **)
 (* [List.init] has the following signature:
@@ -43,7 +43,7 @@ let float_of_int xs = failwith "For you to implement"
 
    Let's rewrite the [range] function we wrote in problem 9 to use [init].  *)
 
-let range from to_ = failwith "For you to implement"
+let range from to_ = List.init (to_-from) ~f:(fun x -> x + from)
 
 (** ========== [List.range] ========== **)
 (* Turns out this special case of [List.init] is useful enough that it has it's own 
@@ -76,7 +76,7 @@ let range from to_ = failwith "For you to implement"
    Let's use [iter] to print a list of ints. Remember that we can use
    [Stdio.printf] to print formatted strings. *)
 
-let print_int_list xs = failwith "For you to implement"
+let print_int_list xs = List.iter xs ~f:(Stdio.printf "%d")
 
 (* There are many more useful [List] functions, which you can read about here:
    https://ocaml.janestreet.com/ocaml-core/latest/doc/base/Base/List/index.html
@@ -122,6 +122,9 @@ let%test "Testing simpler_sum..." = Int.( = ) 0 (simpler_sum [ 5; -5; 1; -1 ])
 let%test "Testing simpler_sum..." = Int.( = ) 12 (simpler_sum [ 5; 5; 1; 1 ])
 
 let%test "Testing float_of_int..." = [%compare.equal: float list] (float_of_int [1; 2; 3]) [ 1.0; 2.0; 3.0 ]
+
+(* let () = List.iter (range 1 4) ~f:(Stdio.printf "%d ") *)
+(* let () = List.iter (range (-5) 4) ~f:(Stdio.printf "%d ") *)
 
 let%test "Testing range..." = [%compare.equal: int list] (range 1 4) [ 1; 2; 3 ]
 
