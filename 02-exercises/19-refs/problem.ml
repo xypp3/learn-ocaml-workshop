@@ -18,11 +18,25 @@ let () =
    let's iterate over the list and explicitly maintain refs of the minimum and
    maximum values seen so far instead. *)
 let min_and_max lst =
-  failwith "For you to implement"
+  match lst with
+    | [] -> failwith "Cannot have empty lst"
+    | h :: ys ->
+    let min = ref h in
+    let max = ref h in
+    List.iter ys ~f:(fun x -> match x with
+        | a when a < !min -> min := a
+        | a when a > !max -> max := a
+      | _ -> ());
+    (!min, !max)
+  
 
 (* By the way, can you guess how a [ref] is implemented under the hood? 
 
    (Hint: exercise 18.) *)
+
+(* let () = *)
+(*   let a, b = min_and_max [4;2] in *)
+(*   Stdio.printf "%d, %d\n" a b *)
 
 let%test "Testing min_and_max..." =
   [%compare.equal: int * int] (min_and_max [5;9;2;4;3]) (2,9) 
